@@ -1,0 +1,36 @@
+import os
+import telebot
+
+TOKEN = os.environ.get('BOT_TOKEN')
+bot = telebot.TeleBot(TOKEN)
+
+@bot.message_handler(commands=['start'])
+def start(message):
+    bot.send_message(message.chat.id, "Привет! Я бот для ПБ арен. Используй команды:\n"
+                                      "/vote — оставить мнение\n"
+                                      "/opinions — посмотреть мнения других\n"
+                                      "/stats — статистика\n"
+                                      "/updates — новые арены")
+
+@bot.message_handler(commands=['vote'])
+def vote(message):
+    bot.send_message(message.chat.id, "Напиши своё мнение по ПБ арене, и я его сохраню.")
+
+@bot.message_handler(commands=['opinions'])
+def opinions(message):
+    bot.send_message(message.chat.id, "Здесь будут отображаться мнения других участников (пока в разработке).")
+
+@bot.message_handler(commands=['stats'])
+def stats(message):
+    bot.send_message(message.chat.id, "Статистика по аренам (пока в разработке).")
+
+@bot.message_handler(commands=['updates'])
+def updates(message):
+    bot.send_message(message.chat.id, "Новые арены (пока в разработке).")
+
+@bot.message_handler(func=lambda message: True)
+def echo(message):
+    bot.send_message(message.chat.id, "Я получил твоё сообщение: " + message.text)
+
+print("Бот запущен...")
+bot.polling(none_stop=True)
